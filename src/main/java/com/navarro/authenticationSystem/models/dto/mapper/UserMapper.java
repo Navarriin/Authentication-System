@@ -18,12 +18,11 @@ public class UserMapper {
     public User toEntity(UserDTO userDTO) {
         if(Objects.isNull(userDTO)) return null;
 
-        User user = new User();
-        if(Objects.nonNull(userDTO.id())) user.setId(userDTO.id());
+       User user = new User();
+       user.setName(userDTO.name());
+       user.setUserName(userDTO.user_name());
+       user.setPassword(userDTO.password());
+       return user;
 
-        user.setName(userDTO.name());
-        user.setUserName(userDTO.userName());
-        user.setPassword(userDTO.password());
-        return user;
     }
 }

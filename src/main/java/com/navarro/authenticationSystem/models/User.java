@@ -1,18 +1,17 @@
 package com.navarro.authenticationSystem.models;
 
+import com.navarro.authenticationSystem.models.dto.UserDTO;
 import jakarta.persistence.*;
+
 
 @Entity
 @Table(name = "users")
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Id
     @Column(name = "user_name", nullable = false)
     private String userName;
 
@@ -22,19 +21,10 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String name, String userName, String password) {
-        this.id = id;
+    public User(String name, String userName, String password) {
         this.name = name;
         this.userName = userName;
         this.password = password;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {

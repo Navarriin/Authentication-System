@@ -40,7 +40,6 @@ public class UserServiceImpl implements UserService {
                 throw new UnauthorizedException("Incorrect password for user: " + requestLogin.username());
             }
         }
-
         throw new NotFoundException("Username " + requestLogin.username() + " not exist!");
     }
 

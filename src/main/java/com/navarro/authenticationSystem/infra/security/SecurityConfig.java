@@ -1,4 +1,4 @@
-package com.navarro.authenticationSystem.infra;
+package com.navarro.authenticationSystem.infra.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

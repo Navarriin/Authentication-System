@@ -1,8 +1,8 @@
-package com.navarro.authenticationSystem.infra;
+package com.navarro.authenticationSystem.exceptions.advice;
 
 import com.navarro.authenticationSystem.exceptions.ExistingUserException;
 import com.navarro.authenticationSystem.exceptions.NotFoundException;
-import com.navarro.authenticationSystem.exceptions.DefaultMessage;
+import com.navarro.authenticationSystem.exceptions.message.DefaultMessage;
 import com.navarro.authenticationSystem.exceptions.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

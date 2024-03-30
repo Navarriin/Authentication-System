@@ -1,4 +1,4 @@
-package com.navarro.authenticationSystem.exceptions;
+package com.navarro.authenticationSystem.exceptions.message;
 
 import org.springframework.http.HttpStatus;
 

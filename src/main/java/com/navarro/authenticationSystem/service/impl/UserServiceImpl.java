@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String longin(RequestLogin requestLogin) {
-        Optional<User> byUserName = Optional.ofNullable(repository.findByUserName(requestLogin.username()));
+        Optional<User> byUserName = repository.findByUserName(requestLogin.username());
 
         if(byUserName.isPresent()) {
             User user = byUserName.get();
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO register(UserDTO body) {
         String encodePass = passwordEncoder.encode(body.password());
-        User byUserName = repository.findByUserName(body.user_name());
+        Optional<User> byUserName = repository.findByUserName(body.user_name());
 
         if(Objects.nonNull(byUserName)) throw new ExistingUserException();
 

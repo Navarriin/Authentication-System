@@ -1,6 +1,7 @@
 package com.navarro.authenticationSystem.controller;
 
 import com.navarro.authenticationSystem.models.dto.RequestLogin;
+import com.navarro.authenticationSystem.models.dto.ResponseWithToken;
 import com.navarro.authenticationSystem.models.dto.UserDTO;
 import com.navarro.authenticationSystem.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +19,15 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody RequestLogin requestLogin){
-        return ResponseEntity.ok().body(service.longin(requestLogin));
+    public ResponseEntity<ResponseWithToken> login(@RequestBody RequestLogin requestLogin){
+        return ResponseEntity.ok()
+                .body(new ResponseWithToken(requestLogin.username(), this.service.login(requestLogin)));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDTO> register(@RequestBody UserDTO userDTO){
-        return ResponseEntity.ok().body(service.register(userDTO));
+    public ResponseEntity<ResponseWithToken> register(@RequestBody UserDTO userDTO){
+        return ResponseEntity.ok()
+                .body(new ResponseWithToken(userDTO.user_name(), this.service.register(userDTO)));
     }
 
 }

@@ -19,19 +19,19 @@ public class ApplicationControllerAdvice extends ResponseEntityExceptionHandler 
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<DefaultMessage> DefaultErrorNotFoundHandler(NotFoundException exception) {
-        return ResponseEntity.status(NOT_FOUND)
-                .body(new DefaultMessage(NOT_FOUND, exception.getMessage()));
+        return ResponseEntity.status(this.NOT_FOUND)
+                .body(new DefaultMessage(this.NOT_FOUND, exception.getMessage()));
     }
 
     @ExceptionHandler(ExistingUserException.class)
     public ResponseEntity<DefaultMessage> DefaultErrorExistingUserHandler(ExistingUserException exception) {
-        return ResponseEntity.status(BAD_REQUEST)
-                .body(new DefaultMessage(BAD_REQUEST, exception.getMessage()));
+        return ResponseEntity.status(this.BAD_REQUEST)
+                .body(new DefaultMessage(this.BAD_REQUEST, exception.getMessage()));
     }
 
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<DefaultMessage> UnauthorizedExceptionHandler(UnauthorizedException exception) {
-        return ResponseEntity.status(FORBIDDEN)
-                .body(new DefaultMessage(FORBIDDEN, exception.getMessage()));
+        return ResponseEntity.status(this.FORBIDDEN)
+                .body(new DefaultMessage(this.FORBIDDEN, exception.getMessage()));
     }
 }

@@ -3,6 +3,7 @@ package com.navarro.authenticationSystem.infra.security;
 import com.navarro.authenticationSystem.exceptions.NotFoundException;
 import com.navarro.authenticationSystem.models.User;
 import com.navarro.authenticationSystem.repository.UserRepository;
+import com.navarro.authenticationSystem.service.impl.TokenServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,10 +21,10 @@ import java.util.Objects;
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
 
-    private final TokenService tokenService;
+    private final TokenServiceImpl tokenService;
     private final UserRepository userRepository;
 
-    public SecurityFilter(TokenService tokenService, UserRepository userRepository) {
+    public SecurityFilter(TokenServiceImpl tokenService, UserRepository userRepository) {
         this.tokenService = tokenService;
         this.userRepository = userRepository;
     }
@@ -37,7 +38,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         var login = this.tokenService.validateToken(token);
 
         if(Objects.nonNull(login)) {
-            User user = userRepository.findByUserName(login).orElseThrow(() -> new NotFoundException("User not found!"));
+            User user = this.userRepository.findByUserName(login).orElseThrow(() -> new NotFoundException("User not found!"));
             var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
             var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(authentication);

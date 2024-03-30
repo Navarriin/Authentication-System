@@ -6,52 +6,51 @@ import com.navarro.authenticationSystem.exceptions.UnauthorizedException;
 import com.navarro.authenticationSystem.models.User;
 import com.navarro.authenticationSystem.models.dto.RequestLogin;
 import com.navarro.authenticationSystem.models.dto.UserDTO;
-import com.navarro.authenticationSystem.models.dto.mapper.UserMapper;
 import com.navarro.authenticationSystem.repository.UserRepository;
+import com.navarro.authenticationSystem.service.TokenService;
 import com.navarro.authenticationSystem.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserMapper mapper;
     private final UserRepository repository;
+    private final TokenService tokenService;
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserMapper mapper, UserRepository repository, PasswordEncoder passwordEncoder) {
-        this.mapper = mapper;
+    public UserServiceImpl(UserRepository repository, TokenService tokenService, PasswordEncoder passwordEncoder) {
         this.repository = repository;
+        this.tokenService = tokenService;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public String longin(RequestLogin requestLogin) {
-        Optional<User> byUserName = repository.findByUserName(requestLogin.username());
+    public String login(RequestLogin requestLogin) {
+        User user = this.repository.findByUserName(requestLogin.username())
+                .orElseThrow(() -> new NotFoundException("User not found!"));
 
-        if(byUserName.isPresent()) {
-            User user = byUserName.get();
-            if(passwordEncoder.matches(requestLogin.password(), user.getPassword())) {
-                return "Entrou(RETORNAR TOKEN GERADO)";
-            } else {
-                throw new UnauthorizedException("Incorrect password for user: " + requestLogin.username());
-            }
+        if(this.passwordEncoder.matches(requestLogin.password(), user.getPassword())) {
+            return this.tokenService.generateToken(user);
+        } else {
+            throw new UnauthorizedException("Incorrect password for user: " + requestLogin.username());
         }
-        throw new NotFoundException("Username " + requestLogin.username() + " not exist!");
     }
 
     @Override
-    public UserDTO register(UserDTO body) {
-        String encodePass = passwordEncoder.encode(body.password());
-        Optional<User> byUserName = repository.findByUserName(body.user_name());
+    public String register(UserDTO body) {
+        Optional<User> byUserName = this.repository.findByUserName(body.user_name());
 
-        if(Objects.nonNull(byUserName)) throw new ExistingUserException();
+        if(byUserName.isEmpty()) {
+            return this.tokenService.generateToken(createNewUser(body));
+        }
+        throw new ExistingUserException();
+    }
 
-        User user = new User(body.name(), body.user_name(), encodePass);
-        repository.save(user);
-        return mapper.toDTO(user);
+    public User createNewUser(UserDTO body) {
+        String encodePass = this.passwordEncoder.encode(body.password());
+        return this.repository.save(new User(body.name(), body.user_name(), encodePass));
     }
 }

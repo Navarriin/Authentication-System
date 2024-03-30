@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UserService {
 
-    String longin(RequestLogin requestLogin);
-    UserDTO register(UserDTO body);
+    String login(RequestLogin requestLogin);
+    String register(UserDTO body);
 
 }

@@ -1,10 +1,11 @@
-package com.navarro.authenticationSystem.infra.security;
+package com.navarro.authenticationSystem.service.impl;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.navarro.authenticationSystem.models.User;
+import com.navarro.authenticationSystem.service.TokenService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -13,14 +14,15 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 @Service
-public class TokenService {
+public class TokenServiceImpl implements TokenService {
 
     @Value("${api.security.token.secret}")
     private String secret;
 
+    @Override
     public String generateToken(User user) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
+            Algorithm algorithm = Algorithm.HMAC256(this.secret);
             return JWT.create()
                     .withIssuer("api-users")
                     .withSubject(user.getUserName())
@@ -31,9 +33,10 @@ public class TokenService {
         }
     }
 
+    @Override
     public String validateToken(String token) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256(secret);
+            Algorithm algorithm = Algorithm.HMAC256(this.secret);
             return JWT.require(algorithm)
                     .withIssuer("api-users")
                     .build()

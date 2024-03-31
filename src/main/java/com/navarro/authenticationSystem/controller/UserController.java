@@ -18,6 +18,11 @@ public class UserController {
         this.service = service;
     }
 
+    @GetMapping("test")
+    public ResponseEntity<String> testToken(){
+        return ResponseEntity.ok().body("Success!");
+    }
+
     @PostMapping("/login")
     public ResponseEntity<ResponseWithToken> login(@RequestBody RequestLogin requestLogin){
         return ResponseEntity.ok()

@@ -22,7 +22,7 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public String generateToken(User user) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256(this.secret);
+            Algorithm algorithm = setAlgorithm(this.secret);
             return JWT.create()
                     .withIssuer("api-users")
                     .withSubject(user.getUserName())
@@ -36,7 +36,7 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public String validateToken(String token) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256(this.secret);
+            Algorithm algorithm = setAlgorithm(this.secret);
             return JWT.require(algorithm)
                     .withIssuer("api-users")
                     .build()
@@ -49,5 +49,9 @@ public class TokenServiceImpl implements TokenService {
 
     private Instant genExpirationDate() {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
+    }
+
+    private Algorithm setAlgorithm(String secret) {
+        return Algorithm.HMAC256(secret);
     }
 }

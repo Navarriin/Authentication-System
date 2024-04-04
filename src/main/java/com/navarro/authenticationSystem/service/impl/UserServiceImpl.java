@@ -30,13 +30,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public String login(RequestLogin requestLogin) {
         User user = this.repository.findByUserName(requestLogin.username())
-                .orElseThrow(() -> new NotFoundException("User not found!"));
+                .orElseThrow(() -> new NotFoundException("User " + requestLogin.username() + " not found!"));
 
-        if(this.passwordEncoder.matches(requestLogin.password(), user.getPassword())) {
-            return this.tokenService.generateToken(user);
-        } else {
+        if(!this.passwordEncoder.matches(requestLogin.password(), user.getPassword())) {
             throw new UnauthorizedException("Incorrect password for user: " + requestLogin.username());
         }
+        return this.tokenService.generateToken(user);
     }
 
     @Override
@@ -46,7 +45,7 @@ public class UserServiceImpl implements UserService {
         if(byUserName.isEmpty()) {
             return this.tokenService.generateToken(createNewUser(body));
         }
-        throw new ExistingUserException();
+        throw new ExistingUserException("User " + body.user_name() + " already exists!");
     }
 
     public User createNewUser(UserDTO body) {

@@ -7,7 +7,7 @@ import com.navarro.authenticationSystem.models.User;
 import com.navarro.authenticationSystem.models.dto.RequestLogin;
 import com.navarro.authenticationSystem.models.dto.UserDTO;
 import com.navarro.authenticationSystem.repository.UserRepository;
-import com.navarro.authenticationSystem.serviceImpl.UserServiceImpl;
+import com.navarro.authenticationSystem.service.serviceImpl.UserServiceImpl;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

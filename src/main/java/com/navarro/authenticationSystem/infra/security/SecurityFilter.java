@@ -3,7 +3,7 @@ package com.navarro.authenticationSystem.infra.security;
 import com.navarro.authenticationSystem.exceptions.NotFoundException;
 import com.navarro.authenticationSystem.models.User;
 import com.navarro.authenticationSystem.repository.UserRepository;
-import com.navarro.authenticationSystem.serviceImpl.TokenServiceImpl;
+import com.navarro.authenticationSystem.service.serviceImpl.TokenServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

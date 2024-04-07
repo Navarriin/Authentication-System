@@ -1,4 +1,4 @@
-package com.navarro.authenticationSystem.service.impl;
+package com.navarro.authenticationSystem.serviceImpl;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

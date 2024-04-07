@@ -1,4 +1,4 @@
-package com.navarro.authenticationSystem.service.impl;
+package com.navarro.authenticationSystem.serviceImpl;
 
 import com.navarro.authenticationSystem.exceptions.ExistingUserException;
 import com.navarro.authenticationSystem.exceptions.NotFoundException;
